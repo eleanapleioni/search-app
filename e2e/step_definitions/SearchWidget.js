@@ -63,6 +63,7 @@ Then('The maximum number of search results displayed is six', async () => {
 
 Then('I should see the message {string}', async value => {
 	await page.waitFor('ul');
+	page.waitFor(10000);
 	const listItems = await page.$$('li');
 	expect(listItems.length).to.eql(1);
 	const message = await page.evaluate(() => {
