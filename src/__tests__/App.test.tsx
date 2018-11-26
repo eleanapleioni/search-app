@@ -22,7 +22,4 @@ describe('App', () => {
 			expect(component.find('[data-test-id="searchInput"]').length).toEqual(1);
 		});
 	});
-	describe('search results', () => {
-		it('user enters single alphanumeric character into pickup location the placeholder disappears', () => {});
-	});
 });

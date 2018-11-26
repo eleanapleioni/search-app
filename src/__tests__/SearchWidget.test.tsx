@@ -2,26 +2,19 @@ import React from 'react';
 import { JSDOM } from 'jsdom';
 import { mount } from 'enzyme';
 import sinon, { SinonStub } from 'sinon';
-// import * as services from '../services/services';
 import SearchWidget from '../components/searchWidget';
-//import mockFetch from 'jest-fetch-mock';
 import axios from 'axios';
-// import MockAdapter from 'axios-mock-adapter';
 
 ///jest.mock('../services/services');
 jest.mock('axios');
 describe('Search widget', () => {
 	let component: any;
-	let axiosStub: any;
 	beforeEach(() => {
-		//mockFetch.resetMocks();
-		//getResults = jest.isMockFunction(services.getSearchResults);
 		component = mount(<SearchWidget />);
-		axiosStub = sinon.stub(axios, 'get');
 	});
 
 	afterEach(() => {
-		axiosStub.restore();
+		component.unmount();
 	});
 
 	describe('titles', () => {
@@ -67,59 +60,16 @@ describe('Search widget', () => {
 			component.update();
 			expect(component.find('[data-test-id="resultsList"]').length).toEqual(0);
 		});
-		// it('user enters 2 or more alphanumeric characters then the search list is displayed', async done => {
-		// 	console.log('aaaaaaaaa');
-		// 	axiosStub
-		// 		.withArgs(
-		// 			'https://cors.io/?https://www.rentalcars.com/FTSAutocomplete.do?solrIndex=fts_en&solrRows={6}&solrTerm={Man}'
-		// 		)
-		// 		.returns({
-		// 			data: {
-		// 				results: { name: 'aaaaa' },
-		// 			},
-		// 		})
-		// 		.returns({
-		// 			results: { name: 'aaaaa' },
-		// 		});
-		// 	//component.instance().changeHandler('Manc', 6);
-		// 	component.find('[data-test-id="searchInput"]').simulate('change', { target: { value: 'Manc' } });
-		// 	console.log('bbbbbb');
-		// 	setInterval(() => {
-		// 		console.log(component.state());
-		// 		component.update();
 
-		// 		expect(component.find('[data-test-id="resultsList"]').length).toEqual(1);
-		// 		done();
-		// 	});
-		// });
-		// it('user enters 2 or more alphanumeric characters then the search list is displayed', async done => {
-		// 	(mockAxios.get as any).mockImplementationOnce(() =>
-		// 		Promise.resolve({
-		// 			data: { results: { name: 'aaaaa' } },
-		// 		})
-		// 	);
-		// 	//component.instance().changeHandler('Manc', 6);
-		// 	component.find('[data-test-id="searchInput"]').simulate('change', { target: { value: 'Manc' } });
-		// 	console.log(component.state());
-		// 	setImmediate(() => {
-		// 		component.update();
-
-		// 		expect(component.find('[data-test-id="resultsList"]').length).toEqual(1);
-		// 		done();
-		// 	});
-		// });
-		// xit('onClick is focused', () => {
-		// 	const dom = new JSDOM(`<!DOCTYPE html><div id="test">fff</div>`);
-		// 	const wrapperComponent = mount(<SearchWidget />, {
-		// 		attachTo: dom.window.document.getElementById('test'),
-		// 	});
-		// 	console.log(dom.window.document);
-		// 	wrapperComponent.find('[data-test-id="searchInput"]').simulate('change', { target: { value: 'test' } });
-
-		// 	const focusedElemet = dom.window.document.activeElement;
-		// 	console.log(focusedElemet);
-		// 	expect(wrapperComponent.find('[data-test-id="searchInput"]').props().id).toEqual(focusedElemet.id);
-		// 	console.log(focusedElemet);
-		// });
+		it('I click/tap into Pick Up Location box Then a focus state is applied', () => {
+			document.body.innerHTML = '<div id="test"></div>';
+			const wrapperComponent = mount(<SearchWidget />, {
+				attachTo: document.getElementById('test'),
+			});
+			const input: any = document.getElementById('searchInput');
+			input.focus();
+			const focusedElemet = document.activeElement;
+			expect(wrapperComponent.find('[data-test-id="searchInput"]').props().id).toEqual(focusedElemet.id);
+		});
 	});
 });

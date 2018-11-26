@@ -20,22 +20,24 @@ class SearchWidget extends Component<{}, ISearchState> {
 				<div className="container container-widget">
 					<form data-test-id="searchForm">
 						<h2>Where are you going?</h2>
-						<fieldset>
-							<div>
-								<label>Pick-up Location</label>
-								<input
-									id="searchInput"
-									data-test-id="searchInput"
-									placeholder="city, airport, station, region and district..."
-									value={this.state.searchString}
-									onChange={e => {
-										this.setState({ searchString: e.target.value });
-										this.changeHandler(e.target.value);
-									}}
-								/>
-							</div>
-						</fieldset>
-						<fieldset>
+						<fieldset className="form-group">
+							<label className="row col-sm-12" htmlFor="searchInput">
+								Pick-up Location
+							</label>
+							<input
+								className="form-control row col-sm-12"
+								id="searchInput"
+								name="searchInput"
+								aria-label="searchInput"
+								aria-haspopup="true"
+								data-test-id="searchInput"
+								placeholder="city, airport, station, region and district..."
+								value={this.state.searchString}
+								onChange={e => {
+									this.setState({ searchString: e.target.value });
+									this.changeHandler(e.target.value);
+								}}
+							/>
 							{this.state.searchString.length > 0 &&
 								this.state.results &&
 								this.state.results.length > 0 && <SearchResults results={this.state.results} />}
@@ -52,18 +54,16 @@ class SearchWidget extends Component<{}, ISearchState> {
 		this.setState({ searchString: val }, async () => {
 			if (val.length > 1) {
 				const returnedData = await getSearchResults(val, resultsNumber);
-				console.log(returnedData, 'aaaaaaaa');
+				// checks if the value has changed
 				if (this.state.searchString.length > 1) {
 					this.setState({ results: returnedData });
 				}
 			} else {
+				//resets the results
 				this.setState({ results: [] });
-				console.log('just one character');
 			}
 		});
 	};
-
-	private getSearchResults = () => {};
 }
 
 export default SearchWidget;
